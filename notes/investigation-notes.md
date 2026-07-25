@@ -1,115 +1,130 @@
-# linux-authentication-investigation-lab
+# Investigation Notes
 
-## Overview
+## Lab Summary
 
-This Linux investigation lab demonstrates how native Linux commands and system logs can be used to investigate user activity, authentication events, scheduled tasks, permissions, and potential persistence mechanisms.
+This investigation focused on analyzing Linux authentication, user privileges, scheduled tasks, file permissions, and system activity using native Linux utilities.
 
-The investigation reconstructs system activity by correlating evidence collected from user accounts, authentication logs, cron jobs, file permissions, and privilege information.
-
----
-
-# Executive Summary
-
-This investigation demonstrates how Linux authentication and system activity can be reconstructed using native Linux utilities.
-
-The investigation included:
-
-- Enumerating user and group information
-- Validating user privileges
-- Investigating file ownership and permissions
-- Reviewing scheduled Cron jobs
-- Examining authentication logs
-- Correlating evidence from multiple system sources
-- Reconstructing investigation findings
+The investigation reconstructed user activity by correlating authentication logs, Cron configuration, user information, and system metadata.
 
 ---
 
-# Learning Objectives
+## Analyst Methodology
 
-- Understand Linux user authentication
-- Investigate user accounts and privileges
-- Analyze Linux file ownership and permissions
-- Examine Cron jobs and scheduled tasks
-- Review Linux authentication logs
-- Correlate multiple evidence sources
-- Reconstruct user activity
+The investigation followed a structured workflow:
 
----
-
-# Skills Demonstrated
-
-- Linux Administration
-- Linux User Enumeration
-- Privilege Analysis
-- File Permission Analysis
-- Cron Job Investigation
-- Authentication Log Analysis
-- System Log Investigation
-- Evidence Correlation
-- Timeline Reconstruction
-- Investigation Documentation
-
----
-
-# Tools Used
-
-- Ubuntu Linux
-- Bash Shell
-- journalctl
-- auth.log
-- cron
-- stat
-- id
-- groups
-- whoami
-- ls
-- cat
-- getent
-
----
-
-# Lab Environment
-
-| Component | Details |
-|-----------|---------|
-| Operating System | Ubuntu 24.04 LTS |
-| Platform | WSL |
-| Investigation Type | Linux System Investigation |
-| Log Sources | auth.log, journalctl |
-| Scheduler | Cron |
-| User | abhinav |
-
----
-
-# Investigation Scenario
-
-A Linux workstation requires investigation to determine user privileges, authentication activity, scheduled tasks, and system permissions.
-
-The investigation objectives are:
-
-- Identify active users
-- Verify user privileges
-- Review authentication activity
-- Examine scheduled tasks
-- Validate file ownership
-- Correlate collected evidence
-
----
-
-# Investigation Workflow
-
-1. Enumerate current user information.
+1. Enumerate current user.
 2. Review user privileges.
-3. Validate file permissions.
+3. Validate file ownership.
 4. Examine Linux user database.
 5. Review scheduled Cron jobs.
 6. Analyze authentication logs.
-7. Correlate collected evidence.
-8. Document investigation findings.
+7. Correlate evidence.
+8. Document findings.
 
 ---
 
-# MITRE ATT&CK Mapping
+## Investigation Scenario
+
+A Linux workstation required investigation to validate user privileges, authentication activity, scheduled tasks, and file ownership.
+
+The investigation aimed to determine:
+
+- Which user was active.
+- What privileges the user possessed.
+- Whether scheduled tasks existed.
+- Whether authentication activity could be reconstructed.
+
+---
+
+## Evidence Collected
+
+### Evidence 1 – User Information
+
+Commands Used
+
+```bash
+whoami
+id
+groups
+```
+
+Finding
+
+Confirmed the active user and verified assigned privilege groups.
+
+---
+
+### Evidence 2 – File Permissions
+
+Commands Used
+
+```bash
+ls -la
+stat investigation.txt
+```
+
+Finding
+
+Validated ownership, permissions, and file metadata.
+
+---
+
+### Evidence 3 – User Database
+
+Commands Used
+
+```bash
+cat /etc/passwd
+cat /etc/group
+getent passwd
+```
+
+Finding
+
+Verified local user accounts and group information.
+
+---
+
+### Evidence 4 – Scheduled Tasks
+
+Commands Used
+
+```bash
+cat /etc/crontab
+crontab -l
+ls -la /etc/cron.*
+```
+
+Finding
+
+Reviewed scheduled Cron jobs and confirmed system scheduling configuration.
+
+---
+
+### Evidence 5 – Authentication Logs
+
+Commands Used
+
+```bash
+cat /var/log/auth.log
+journalctl
+```
+
+Finding
+
+Validated authentication events and reconstructed system activity.
+
+---
+
+## Investigation Analysis
+
+Evidence collected from authentication logs, Cron configuration, file permissions, and user information consistently reconstructed Linux user activity.
+
+Multiple independent sources validated system configuration and user privileges.
+
+---
+
+## MITRE ATT&CK Mapping
 
 | Tactic | Technique | ID |
 |---------|-----------|----|
@@ -117,56 +132,18 @@ The investigation objectives are:
 | Privilege Escalation | Valid Accounts | T1078 |
 | Discovery | Account Discovery | T1087 |
 
-### Why Linux Authentication Investigation Matters
+---
 
-Linux authentication records, user privileges, and scheduled tasks provide valuable evidence during security investigations. Reviewing these artifacts helps analysts identify unauthorized access, privilege misuse, persistence mechanisms, and abnormal system activity.
+## Analyst Observations
+
+- Linux authentication logs provide valuable investigative evidence.
+- Cron configuration should always be reviewed.
+- User privilege validation is essential.
+- File metadata assists in ownership verification.
+- Multiple evidence sources improve investigation reliability.
 
 ---
 
-# Evidence Collected
+## Conclusion
 
-- Current User Information
-- User Privileges
-- Group Membership
-- File Permissions
-- Cron Configuration
-- Authentication Logs
-- System Journal
-- User Database
-
----
-
-# Evidence Correlation
-
-| Evidence Source | Information Obtained | Investigation Value |
-|-----------------|---------------------|--------------------|
-| whoami / id | Active user details | User identification |
-| /etc/passwd | User accounts | Account verification |
-| groups | Group membership | Privilege validation |
-| stat | File ownership | Permission analysis |
-| Cron | Scheduled jobs | Persistence review |
-| auth.log | Authentication activity | Login verification |
-| journalctl | System events | Activity correlation |
-
----
-
-# Investigation Findings
-
-- Active user successfully identified.
-- User privilege membership verified.
-- File ownership and permissions validated.
-- Scheduled Cron configuration reviewed.
-- Authentication logs confirmed user activity.
-- Multiple evidence sources consistently reconstructed system activity.
-
----
-
-# Key Takeaways
-
-- Native Linux utilities provide valuable investigative evidence.
-- Authentication logs help reconstruct user activity.
-- Cron jobs should always be reviewed for persistence.
-- File permissions assist in validating ownership and privilege.
-- Correlating multiple evidence sources improves investigation accuracy.
-
----
+The investigation successfully reconstructed Linux authentication and user activity using native Linux utilities. Correlating user information, authentication logs, Cron configuration, and file metadata demonstrated how Linux system activity can be investigated effectively.
